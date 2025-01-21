@@ -10,13 +10,6 @@ import SwiftUI
 struct ContentView: View { // struct créé des objets plus léger (plus optimisé)
     
     @State var isNight: Bool = false // state permet de redessiner dès que isNight change
-    @State var forecasts: [Temperature] = [
-        Temperature(dayOfWeek: "NOM", imageName: "cloud.sun.fill", temp: 0),
-        Temperature(dayOfWeek: "TUE", imageName: "cloud.drizzle.fill", temp: 2),
-        Temperature(dayOfWeek: "WED", imageName: "cloud.rain.fill", temp: 5),
-        Temperature(dayOfWeek: "THU", imageName: "cloud.heavyrain.fill", temp: 1),
-        Temperature(dayOfWeek: "FRI", imageName: "cloud.fog.fill", temp: 8)
-    ]
     
     var body: some View {
         
@@ -80,12 +73,6 @@ struct ContentView: View { // struct créé des objets plus léger (plus optimis
                 
                 Spacer()
             }
-        }
-    }
-    
-    func reloadTemperature() {
-        for i in 0..<forecasts.count {
-            forecasts[i].temp += 1;
         }
     }
 }

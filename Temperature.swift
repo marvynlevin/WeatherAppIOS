@@ -13,5 +13,4 @@ struct Temperature {
     var imageName: String
     var temp: Int
     
-    
 }
