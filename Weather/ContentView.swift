@@ -7,23 +7,44 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ContentView: View { // struct créé des objets plus léger (plus optimisé)
+    
+    @State var isNight: Bool = false // state permet de redessiner dès que isNight change
+    @State var forecasts: [Temperature] = [
+        Temperature(dayOfWeek: "NOM", imageName: "cloud.sun.fill", temp: 0),
+        Temperature(dayOfWeek: "TUE", imageName: "cloud.drizzle.fill", temp: 2),
+        Temperature(dayOfWeek: "WED", imageName: "cloud.rain.fill", temp: 5),
+        Temperature(dayOfWeek: "THU", imageName: "cloud.heavyrain.fill", temp: 1),
+        Temperature(dayOfWeek: "FRI", imageName: "cloud.fog.fill", temp: 8)
+    ]
+    
     var body: some View {
         
         // permet de superposer les éléments
         ZStack {
             
-            Color.blue
-                .edgesIgnoringSafeArea(.all) // .bottom .top
+            BackgroundView(topColor: isNight ? .black : .blue, bottomColor: .white)
                         
             // aligner verticalement
             VStack {
-                Text("Etupes, FR")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundStyle(.white)
-                                
-                Image(systemName: "cloud.sun.fill")
+                
+                // aligner horizontalement
+                HStack {
+                    Text("Etupes, FR")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundStyle(.white)
+                    
+                    Button {
+                        reloadTemperature()
+                    } label: {
+                        Image(systemName: "arrow.clockwise.circle")
+                            .font(.title)
+                            .foregroundStyle(.white)
+                    }
+                }
+
+                Image(systemName: isNight ? "moon.stars.fill" : "cloud.sun.fill")
                     .renderingMode(.original)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -35,38 +56,19 @@ struct ContentView: View {
                 
                 // aligner horizontalement
                 HStack (spacing: 20) {
-                    WeatherDayView(
-                        dayOfWeek: "NOM",
-                        imageName: "cloud.sun.fill",
-                        temperature: 0
-                    )
-                    WeatherDayView(
-                        dayOfWeek: "TUE",
-                        imageName: "cloud.drizzle.fill",
-                        temperature: 2
-                    )
-                    WeatherDayView(
-                        dayOfWeek: "WED",
-                        imageName: "cloud.rain.fill",
-                        temperature: 5
-                    )
-                    WeatherDayView(
-                        dayOfWeek: "THU",
-                        imageName: "cloud.heavyrain.fill",
-                        temperature: 1
-                    )
-                    WeatherDayView(
-                        dayOfWeek: "FRI",
-                        imageName: "cloud.fog.fill",
-                        temperature: 8
-                    )
+                    WeatherDayView(temperature: forecasts[0])
+                    WeatherDayView(temperature: forecasts[1])
+                    WeatherDayView(temperature: forecasts[2])
+                    WeatherDayView(temperature: forecasts[3])
+                    WeatherDayView(temperature: forecasts[4])
                 }
                 
                 Spacer()
                 
                 Button {
-                    //action à réaliser
-                    print("button tapped")
+                    // action à réaliser
+                    // print("button tapped")
+                    isNight.toggle() // passe de true a false et inversement
                 } label: {
                     Text("Changed Day Time")
                         .frame(width: 280, height: 50)
@@ -80,28 +82,36 @@ struct ContentView: View {
             }
         }
     }
+    
+    func reloadTemperature() {
+        for i in 0..<forecasts.count {
+            forecasts[i].temp += 1;
+        }
+    }
 }
 
 // switfUI utilise plus des struct que les class
 struct WeatherDayView: View {
     
-    var dayOfWeek: String
-    var imageName: String
-    var temperature: Int
+    var temperature: Temperature
+    
+    // var dayOfWeek: String
+    // var imageName: String
+    // var temperature: Int
     
     var body: some View {
         VStack {
-            Text(dayOfWeek)
+            Text(temperature.dayOfWeek)
                 .font(.title2)
                 .foregroundStyle(.white)
             
-            Image(systemName: imageName)
+            Image(systemName: temperature.imageName)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 40, height: 40)
             
-            Text("\(temperature)°")
+            Text("\(temperature.temp)°")
                 .font(.title2)
                 .foregroundStyle(.white)
         }

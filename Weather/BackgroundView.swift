@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct BackgroundView: View {
+    
+    var topColor: Color
+    var bottomColor: Color
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        LinearGradient(
+            colors: [topColor, bottomColor],
+            startPoint: .topLeading, endPoint: .bottomTrailing) // pas d'utilisation de left et right
+            .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
     }
 }
 
 #Preview {
-    BackgroundView()
+    BackgroundView(topColor: .blue, bottomColor: .white)
 }

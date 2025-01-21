@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct Temperature {
+    
+    var dayOfWeek: String
+    var imageName: String
+    var temp: Int
+    
+    
+}
