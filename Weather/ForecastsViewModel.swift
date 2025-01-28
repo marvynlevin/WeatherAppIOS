@@ -11,7 +11,8 @@ import Foundation
 class ForecastsViewModel: ObservableObject {
     
     // Published permet que si la valeur de forecasts change et non i, les vues seront rafraichient
-    @Published private var forecasts: [Temperature] = []
+    // on aurait pu faire des getters et setters pour pouvoir mettre la variable en private
+    @Published var forecasts: [Temperature] = []
     
     // constructeur
     init() {
@@ -20,7 +21,7 @@ class ForecastsViewModel: ObservableObject {
     
     func getForecasts() {
         var newForecasts: [Temperature] = [
-            Temperature(dayOfWeek: "NOM", imageName: "cloud.sun.fill", temp: 0),
+            Temperature(dayOfWeek: "MON", imageName: "cloud.sun.fill", temp: 0),
             Temperature(dayOfWeek: "TUE", imageName: "cloud.drizzle.fill", temp: 2),
             Temperature(dayOfWeek: "WED", imageName: "cloud.rain.fill", temp: 5),
             Temperature(dayOfWeek: "THU", imageName: "cloud.heavyrain.fill", temp: 1),

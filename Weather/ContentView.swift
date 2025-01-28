@@ -11,6 +11,8 @@ struct ContentView: View { // struct créé des objets plus léger (plus optimis
     
     @State var isNight: Bool = false // state permet de redessiner dès que isNight change
     
+    @EnvironmentObject var forecastsVM: ForecastsViewModel
+    
     var body: some View {
         
         // permet de superposer les éléments
@@ -29,7 +31,7 @@ struct ContentView: View { // struct créé des objets plus léger (plus optimis
                         .foregroundStyle(.white)
                     
                     Button {
-                        reloadTemperature()
+                        forecastsVM.reloadTemperature()
                     } label: {
                         Image(systemName: "arrow.clockwise.circle")
                             .font(.title)
@@ -49,11 +51,11 @@ struct ContentView: View { // struct créé des objets plus léger (plus optimis
                 
                 // aligner horizontalement
                 HStack (spacing: 20) {
-                    WeatherDayView(temperature: forecasts[0])
-                    WeatherDayView(temperature: forecasts[1])
-                    WeatherDayView(temperature: forecasts[2])
-                    WeatherDayView(temperature: forecasts[3])
-                    WeatherDayView(temperature: forecasts[4])
+                    WeatherDayView(temperature: forecastsVM.forecasts[0])
+                    WeatherDayView(temperature: forecastsVM.forecasts[1])
+                    WeatherDayView(temperature: forecastsVM.forecasts[2])
+                    WeatherDayView(temperature: forecastsVM.forecasts[3])
+                    WeatherDayView(temperature: forecastsVM.forecasts[4])
                 }
                 
                 Spacer()
@@ -107,4 +109,5 @@ struct WeatherDayView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(ForecastsViewModel())
 }
